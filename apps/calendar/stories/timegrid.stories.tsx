@@ -86,6 +86,7 @@ function getEvents() {
 function getTimeGridData() {
   const now = new TZDate();
   const weekDates = getWeekDates(now, { startDayOfWeek: 0, workweek: false });
+
   return createTimeGridData(weekDates, { hourStart: 0, hourEnd: 24 });
 }
 

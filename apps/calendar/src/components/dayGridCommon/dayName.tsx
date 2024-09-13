@@ -92,17 +92,43 @@ export function DayName({ dayName, style, type, theme }: Props) {
       eventBus.fire('clickDayName', { date: toFormat(dayName.dateInstance, 'YYYY-MM-DD') });
     }
   };
+  const daynameStr = isWeekDayName(type, dayName) ? `${dayName.dayName}` : `${dayName.label}`;
+
+  const splitted = daynameStr.split('_');
+  let [productName, productType, imageLink] = ['', '', ''];
+  if (splitted.length === 3) {
+    [productName, productType, imageLink] = splitted;
+  } else {
+    productName = '';
+    productType = '';
+    imageLink = '';
+  }
 
   return (
-    <div className={cls('day-name-item', type)} style={style}>
-      <span
-        className={cls({ [`holiday-${getDayName(day)}`]: isWeekend(day) })}
-        style={{ color }}
-        onClick={handleClick}
-        data-testid={`dayName-${type}-${getDayName(day)}`}
+    <div
+      className={cls('day-name-item', type)}
+      style={{ ...style, lineHeight: '15px', marginTop: '5px' }}
+    >
+      <div
+        style={{
+          display: 'flex',
+        }}
       >
-        <Template template={templateType} param={dayName} />
-      </span>
+        {imageLink ? (
+          <img
+            src={imageLink}
+            style={{ width: '30px', height: '30px', marginRight: '10px', borderRadius: '50%' }}
+          />
+        ) : (
+          <div
+            style={{ width: '30px', height: '30px', marginRight: '10px', borderRadius: '50%' }}
+          ></div>
+        )}
+        <div>
+          <span>{productName} sjdhbfvhj</span> <br></br>
+          <span>{productType} sdkfbjkb</span>
+        </div>
+      </div>
     </div>
   );
 }

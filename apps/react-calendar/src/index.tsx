@@ -1,7 +1,7 @@
 import type { EventObject, ExternalEventTypes, Options } from '@toast-ui/calendar';
-import ToastUICalendar from '@toast-ui/calendar';
 import React from 'react';
 
+import ToastUICalendar from '../../calendar/dist/toastui-calendar';
 import { isEqual } from './isEqual';
 
 type ReactCalendarOptions = Omit<Options, 'defaultView'>;

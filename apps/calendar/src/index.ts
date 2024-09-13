@@ -1,3 +1,4 @@
+import { TimeGrid } from '@src/components/timeGrid/timeGrid';
 import Calendar from '@src/factory/calendar';
 import Day from '@src/factory/day';
 import Month from '@src/factory/month';
@@ -10,5 +11,5 @@ import type { Options } from '@t/options';
 
 export default Calendar;
 
-export { Day, Month, TZDate, Week };
+export { Day, Month, TimeGrid, TZDate, Week };
 export type { EventObjectWithDefaultValues as EventObject, ExternalEventTypes, Options };

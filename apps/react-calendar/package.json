@@ -53,8 +53,7 @@
     "build": "rimraf dist/ && concurrently 'npm:build:*'",
     "build:modern": "vite build && vite build --mode minify",
     "build:ie11": "vite build --mode ie11 && vite build --mode ie11_minify",
-    "build:esm": "vite build --mode esm",
-    "build:types": "rimraf types/ && tsc -p ./tsconfig.declaration.json"
+    "build:esm": "vite build --mode esm"
   },
   "dependencies": {
     "@toast-ui/calendar": "^2.1.3"
