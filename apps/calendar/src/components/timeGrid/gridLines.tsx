@@ -9,8 +9,8 @@ import type { ThemeState } from '@t/theme';
 
 function gridLineBorderSelector(theme: ThemeState) {
   return {
-    halfHourLineBorder: theme.week.timeGridHalfHourLine.borderBottom,
     hourLineBorder: theme.week.timeGridHourLine.borderBottom,
+    halfHourLineBorder: theme.week.timeGridHalfHourLine.borderBottom,
   };
 }
 
@@ -19,12 +19,13 @@ export const GridLines = memo(function GridLines({
 }: {
   timeGridRows: TimeGridRow[];
 }) {
-  const { halfHourLineBorder, hourLineBorder } = useTheme(gridLineBorderSelector);
+  const { hourLineBorder, halfHourLineBorder } = useTheme(gridLineBorderSelector);
 
   return (
     <div className={cls('gridlines')}>
       {timeGridRows.map((time, index) => {
-        const isUpperLine = index % 2 === 0;
+        const isHourLine = index % 2 === 0; // Every 2nd row is an hour line (e.g., 12:00, 1:00)
+        const borderBottomStyle = isHourLine ? hourLineBorder : halfHourLineBorder; // Alternate between hour and half-hour lines
 
         return (
           <div
@@ -33,7 +34,7 @@ export const GridLines = memo(function GridLines({
             style={{
               top: toPercent(time.top),
               height: toPercent(time.height),
-              borderBottom: isUpperLine ? halfHourLineBorder : hourLineBorder,
+              borderBottom: borderBottomStyle,
             }}
             data-testid={`gridline-${time.startTime}-${time.endTime}`}
           />

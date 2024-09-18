@@ -37,6 +37,7 @@ import { passConditionalProp } from '@src/utils/preact';
 import { isPresent } from '@src/utils/type';
 
 import type { TimeGridData } from '@t/grid';
+import { time } from 'console';
 
 const classNames = {
   timegrid: cls(timegridClassName),
@@ -158,6 +159,8 @@ export function TimeGrid({ timeGridData, events }: Props) {
       }
     }
   }, [currentDateData, isMounted, updateTimeGridIndicator]);
+  console.log(currentDateData);
+  console.log(timeGridData);
 
   // Set interval to update timeIndicatorTop
   useInterval(updateTimeGridIndicator, isPresent(currentDateData) ? MS_PER_MINUTES : null);

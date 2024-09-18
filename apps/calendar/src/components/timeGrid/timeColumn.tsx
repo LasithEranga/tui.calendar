@@ -119,6 +119,7 @@ interface Props {
 }
 
 export const TimeColumn = memo(function TimeColumn({ timeGridRows, nowIndicatorState }: Props) {
+  console.log(nowIndicatorState);
   const showNowIndicator = useStore(showNowIndicatorOptionSelector);
   const timezones = useStore(timezonesSelector);
   const timezonesCollapsed = useStore(timezonesCollapsedOptionSelector);
@@ -127,9 +128,11 @@ export const TimeColumn = memo(function TimeColumn({ timeGridRows, nowIndicatorS
   const { width, borderRight } = useTheme(weekTimeGridLeftSelector);
 
   const rowsByHour = useMemo(
-    () => timeGridRows.filter((_, index) => index % 2 === 0 || index === timeGridRows.length - 1),
+    () => timeGridRows.filter((_, index) => true),
     [timeGridRows]
   );
+  console.log(timeGridRows);
+  console.log(rowsByHour);
   const hourRowsPropsMapper = useCallback(
     (row: TimeGridRow, index: number, diffFromPrimaryTimezone?: number) => {
       const shouldHideRow = ({ top: rowTop, height: rowHeight }: TimeGridRow) => {
@@ -165,7 +168,7 @@ export const TimeColumn = memo(function TimeColumn({ timeGridRows, nowIndicatorS
   );
 
   const [primaryTimezone, ...otherTimezones] = timezones;
-  const hourRowsWidth = otherTimezones.length > 0 ? 100 / (otherTimezones.length + 1) : 100;
+  const hourRowsWidth = otherTimezones.length > 0 ? 500 / (otherTimezones.length + 1) : 100;
   const primaryTimezoneHourRowsProps = rowsByHour.map((row, index) =>
     hourRowsPropsMapper(row, index)
   );
@@ -179,6 +182,7 @@ export const TimeColumn = memo(function TimeColumn({ timeGridRows, nowIndicatorS
       const primaryTimezoneOffset = tzConverter(primaryTimezone.timezoneName).getTimezoneOffset();
       const currentTimezoneOffset = tzConverter(timezoneName).getTimezoneOffset();
       const diffFromPrimaryTimezone = currentTimezoneOffset - primaryTimezoneOffset;
+      console.log(diffFromPrimaryTimezone);
 
       return rowsByHour.map((row, index) =>
         hourRowsPropsMapper(row, index, diffFromPrimaryTimezone)
@@ -207,7 +211,7 @@ export const TimeColumn = memo(function TimeColumn({ timeGridRows, nowIndicatorS
         rowsInfo={primaryTimezoneHourRowsProps}
         isPrimary={true}
         borderRight={borderRight}
-        width={timezonesCollapsed ? 100 : hourRowsWidth}
+        width={timezonesCollapsed ? 200 : hourRowsWidth}
         nowIndicatorState={nowIndicatorState}
       />
     </div>

@@ -426,17 +426,23 @@ export function createTimeGridData(
 ): TimeGridData {
   const columns = getColumnsData(datesOfWeek, options.narrowWeekend ?? false);
 
-  const steps = (options.hourEnd - options.hourStart) * 2;
-  const baseHeight = 100 / steps;
-  const rows = range(steps).map((step, index) => {
-    const isOdd = index % 2 === 1;
-    const hour = options.hourStart + Math.floor(step / 2);
-    const startTime = `${hour}:${isOdd ? '30' : '00'}`.padStart(5, '0') as FormattedTimeString;
-    const endTime = (isOdd ? `${hour + 1}:00` : `${hour}:30`).padStart(
-      5,
-      '0'
-    ) as FormattedTimeString;
+// Calculate the number of steps based on 15-minute intervals (4 steps per hour)
+  const steps = (options.hourEnd - options.hourStart) * 4;
+  const baseHeight = (100 / steps); // Increased by 10% for larger rows
 
+  const rows = range(steps).map((step, index) => {
+    const quarter = step % 4; // Determines the current 15-minute interval
+    const hour = options.hourStart + Math.floor(step / 4); // Calculate the correct hour for every 4 steps (15-minute intervals)
+
+    // Calculate minutes based on the quarter
+    const minutes = quarter === 0 ? '00' : quarter === 1 ? '15' : quarter === 2 ? '30' : '45';
+
+    // Calculate startTime and endTime
+    const startTime = `${hour}:${minutes}`.padStart(5, '0') as FormattedTimeString;
+    const endTime = quarter === 3
+      ? `${hour + 1}:00`.padStart(5, '0')
+      : `${hour}:${(quarter === 0 ? '15' : quarter === 1 ? '30' : '45')}`.padStart(5, '0') as FormattedTimeString;
+    console.log(startTime, endTime);
     return {
       top: baseHeight * index,
       height: baseHeight,
@@ -444,6 +450,8 @@ export function createTimeGridData(
       endTime,
     };
   });
+
+
 
   return {
     columns,
