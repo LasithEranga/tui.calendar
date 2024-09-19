@@ -24,7 +24,7 @@ export const GridLines = memo(function GridLines({
   return (
     <div className={cls('gridlines')}>
       {timeGridRows.map((time, index) => {
-        const isHourLine = index % 2 === 0; // Every 2nd row is an hour line (e.g., 12:00, 1:00)
+        const isHourLine = index % 4 === 3; // Every 2nd row is an hour line (e.g., 12:00, 1:00)
         const borderBottomStyle = isHourLine ? hourLineBorder : halfHourLineBorder; // Alternate between hour and half-hour lines
 
         return (

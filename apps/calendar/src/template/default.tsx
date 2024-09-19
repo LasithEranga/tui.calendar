@@ -169,11 +169,12 @@ export const templates: Template = {
   timegridDisplayPrimaryTime(props: TemplateNow) {
     const { time } = props;
 
-    return toFormat(time, 'HH:mm');
+    return toFormat(time, 'HH:mm tt');
   },
 
   timegridDisplayTime(props: TemplateNow) {
     const { time } = props;
+    console.log(time);
 
     return toFormat(time, 'HH:mm');
   },
