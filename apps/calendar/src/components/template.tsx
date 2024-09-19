@@ -22,8 +22,10 @@ export function Template({ template, param, as: tagName = 'div' }: Props) {
   if (isNil(templateFunc)) {
     return null;
   }
-
+  console.log(templateFunc(param));
   const htmlOrVnode: TemplateReturnType = templateFunc(param);
+  console.log(htmlOrVnode);
+  console.log(param);
 
   return isString(htmlOrVnode)
     ? createElement(tagName, {

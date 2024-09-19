@@ -89,6 +89,7 @@ export const timeGridSelectionHelper: GridSelectionHelper<
   },
   getDateFromCollection: (dateCollection, gridSelection) => {
     const timeGridData = dateCollection as TimeGridData;
+    console.log(timeGridData);
 
     const startDate = setTimeStrToDate(
       timeGridData.columns[gridSelection.startColumnIndex].date,
@@ -98,6 +99,7 @@ export const timeGridSelectionHelper: GridSelectionHelper<
       timeGridData.columns[gridSelection.endColumnIndex].date,
       timeGridData.rows[gridSelection.endRowIndex].endTime
     );
+    console.log(startDate, endDate);
 
     return [startDate, endDate];
   },

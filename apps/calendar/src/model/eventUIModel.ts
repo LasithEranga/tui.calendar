@@ -281,6 +281,7 @@ export default class EventUIModel implements EventUIProps {
 
     if (this.renderStarts) {
       clonedEventUIModel.renderStarts = new TZDate(this.renderStarts);
+      console.log(clonedEventUIModel.renderStarts);
     }
 
     if (this.renderEnds) {
