@@ -21,6 +21,7 @@ import { isNil, isPresent } from '@src/utils/type';
 
 import type { TimeGridRow } from '@t/grid';
 import type { ThemeState } from '@t/theme';
+import { templates } from '@src/template/default';
 
 const classNames = {
   timeColumn: addTimeGridPrefix('time-column'),
@@ -70,7 +71,7 @@ function HourRows({ rowsInfo, isPrimary, borderRight, width, nowIndicatorState }
   const zonedNow = isPresent(nowIndicatorState)
     ? addMinutes(nowIndicatorState.now, rowsInfo[0].diffFromPrimaryTimezone ?? 0)
     : null;
-
+  console.log(zonedNow);
   const backgroundColor = isPrimary ? primaryTimezoneBackgroundColor : subTimezoneBackgroundColor;
 
   return (
@@ -82,6 +83,8 @@ function HourRows({ rowsInfo, isPrimary, borderRight, width, nowIndicatorState }
       {rowsInfo.map(({ date, top, className }) => {
         const isPast = isPresent(zonedNow) && date < zonedNow;
         const color = isPast ? pastTimeColor : futureTimeColor;
+        console.log(date);
+        console.log(`timegridDisplay${isPrimary ? 'Primary' : ''}Time`);
 
         return (
           <div
