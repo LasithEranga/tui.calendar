@@ -88,6 +88,7 @@ export function DayName({ dayName, style, type, theme }: Props) {
   const templateType = `${type}DayName` as TemplateName;
 
   const handleClick = () => {
+    console.log('clickDayName', dayName);
     if (isWeekDayName(type, dayName)) {
       eventBus.fire('clickDayName', { date: toFormat(dayName.dateInstance, 'YYYY-MM-DD') });
     }
@@ -106,8 +107,9 @@ export function DayName({ dayName, style, type, theme }: Props) {
 
   return (
     <div
-      className={cls('day-name-item', type)}
+      className={cls('day-name-item', type, 'hover-div')}
       style={{ ...style, lineHeight: '15px', marginTop: '5px' }}
+      onClick={handleClick}
     >
       <div
         style={{
@@ -125,8 +127,8 @@ export function DayName({ dayName, style, type, theme }: Props) {
           ></div>
         )}
         <div>
-          <span>{productName} sjdhbfvhj</span> <br></br>
-          <span>{productType} sdkfbjkb</span>
+          <span>{productName}</span> <br></br>
+          <span>{productType}</span>
         </div>
       </div>
     </div>

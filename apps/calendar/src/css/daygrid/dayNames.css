@@ -6,6 +6,13 @@
   position: relative;
 }
 
+.day-name-container:hover {
+  line-height: 15px;
+  margin-top: 5px;
+  background-color: white; 
+  cursor: pointer;
+}
+
 .day-name-item {
   position: absolute;
   font-size: 12px;

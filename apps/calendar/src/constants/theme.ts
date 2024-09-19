@@ -35,7 +35,7 @@ export const DEFAULT_WEEK_THEME: DeepRequired<WeekTheme> = {
   },
   today: {
     color: 'inherit',
-    backgroundColor: 'rgba(81, 92, 230, 0.05)',
+    backgroundColor: 'inherit',
   },
   pastDay: {
     color: '#bbb',
