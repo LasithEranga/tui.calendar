@@ -152,9 +152,9 @@ export function Week() {
           rowStyleInfo={rowStyleInfo}
         />
       </Panel>
-      {dayGridRows}
+      {/* {dayGridRows} */}
       {hasTimePanel ? (
-        <Panel name="time" autoSize={1} ref={setTimePanelRef}>
+        <Panel name="time" autoSize={1} ref={setTimePanelRef} minHeight={1200}>
           <TimeGrid events={eventByPanel.time} timeGridData={timeGridData} />
           <TimezoneLabels top={stickyTop} />
         </Panel>

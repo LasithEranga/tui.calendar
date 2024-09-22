@@ -44,6 +44,8 @@ interface Props {
 }
 
 export function GridSelectionByColumn({ columnIndex, timeGridRows }: Props) {
+  console.log('GridSelectionByColumn timeGridRows', timeGridRows);
+
   const gridSelectionData = useStore(
     useCallback(
       (state: CalendarState) =>

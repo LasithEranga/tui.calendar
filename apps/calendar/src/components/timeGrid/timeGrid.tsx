@@ -1,6 +1,8 @@
 import { h } from 'preact';
 import { useCallback, useLayoutEffect, useMemo, useState } from 'preact/hooks';
 
+import { time } from 'console';
+
 import { addTimeGridPrefix, className as timegridClassName } from '@src/components/timeGrid';
 import { Column } from '@src/components/timeGrid/column';
 import { GridLines } from '@src/components/timeGrid/gridLines';
@@ -37,7 +39,6 @@ import { passConditionalProp } from '@src/utils/preact';
 import { isPresent } from '@src/utils/type';
 
 import type { TimeGridData } from '@t/grid';
-import { time } from 'console';
 
 const classNames = {
   timegrid: cls(timegridClassName),
@@ -50,6 +51,8 @@ interface Props {
 }
 
 export function TimeGrid({ timeGridData, events }: Props) {
+  console.log('timeGridData', timeGridData);
+
   const {
     isReadOnly,
     week: { narrowWeekend, startDayOfWeek, collapseDuplicateEvents },

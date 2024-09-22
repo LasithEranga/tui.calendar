@@ -74,7 +74,7 @@ function createRandomEvent(calendar: CalendarInfo, renderStart: TZDate, renderEn
   event.id = chance.guid();
   event.calendarId = calendar.id;
 
-  event.title = chance.sentence({ words: 3 });
+  event.title = '<h2>hello world</h2>';
   event.body = chance.bool({ likelihood: 20 }) ? chance.sentence({ words: 10 }) : '';
   event.isReadOnly = chance.bool({ likelihood: 20 });
   createTime(event, renderStart, renderEnd);

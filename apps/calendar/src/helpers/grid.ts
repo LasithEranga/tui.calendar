@@ -426,9 +426,9 @@ export function createTimeGridData(
 ): TimeGridData {
   const columns = getColumnsData(datesOfWeek, options.narrowWeekend ?? false);
 
-// Calculate the number of steps based on 15-minute intervals (4 steps per hour)
+  // Calculate the number of steps based on 15-minute intervals (4 steps per hour)
   const steps = (options.hourEnd - options.hourStart) * 4;
-  const baseHeight = (100 / steps); // Increased by 10% for larger rows
+  const baseHeight = 100 / steps; // Increased by 10% for larger rows
 
   const rows = range(steps).map((step, index) => {
     const quarter = step % 4; // Determines the current 15-minute interval
@@ -450,7 +450,6 @@ export function createTimeGridData(
       endTime,
     };
   });
-
 
 
   return {
