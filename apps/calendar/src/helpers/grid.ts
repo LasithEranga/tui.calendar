@@ -442,7 +442,6 @@ export function createTimeGridData(
     const endTime = quarter === 3
       ? `${hour + 1}:00`.padStart(5, '0')
       : `${hour}:${(quarter === 0 ? '15' : quarter === 1 ? '30' : '45')}`.padStart(5, '0') as FormattedTimeString;
-    console.log(startTime, endTime);
     return {
       top: baseHeight * index,
       height: baseHeight,

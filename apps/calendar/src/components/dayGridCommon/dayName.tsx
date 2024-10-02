@@ -88,7 +88,6 @@ export function DayName({ dayName, style, type, theme }: Props) {
   const templateType = `${type}DayName` as TemplateName;
 
   const handleClick = () => {
-    console.log('clickDayName', dayName);
     if (isWeekDayName(type, dayName)) {
       eventBus.fire('clickDayName', { date: toFormat(dayName.dateInstance, 'YYYY-MM-DD') });
     }

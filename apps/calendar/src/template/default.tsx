@@ -174,7 +174,6 @@ export const templates: Template = {
 
   timegridDisplayTime(props: TemplateNow) {
     const { time } = props;
-    console.log(time);
 
     return toFormat(time, 'HH:mm');
   },

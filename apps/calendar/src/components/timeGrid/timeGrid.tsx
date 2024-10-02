@@ -51,7 +51,6 @@ interface Props {
 }
 
 export function TimeGrid({ timeGridData, events }: Props) {
-  console.log('timeGridData', timeGridData);
 
   const {
     isReadOnly,
@@ -141,7 +140,11 @@ export function TimeGrid({ timeGridData, events }: Props) {
   const updateTimeGridIndicator = useCallback(() => {
     if (isPresent(currentDateData)) {
       const { startTime, endTime } = currentDateData;
+
       const now = getNow();
+      //fix 8am as now
+      now.setHours(10);
+      now.setMinutes(0);
 
       if (startTime <= now && now <= endTime) {
         setNowIndicatorState({
@@ -162,8 +165,6 @@ export function TimeGrid({ timeGridData, events }: Props) {
       }
     }
   }, [currentDateData, isMounted, updateTimeGridIndicator]);
-  console.log(currentDateData);
-  console.log(timeGridData);
 
   // Set interval to update timeIndicatorTop
   useInterval(updateTimeGridIndicator, isPresent(currentDateData) ? MS_PER_MINUTES : null);

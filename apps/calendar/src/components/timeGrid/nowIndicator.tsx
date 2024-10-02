@@ -85,7 +85,7 @@ export function NowIndicator({ top, columnWidth, columnCount, columnIndex }: Pro
       style={{ top: toPercent(top) }}
       data-testid={TEST_IDS.NOW_INDICATOR}
     >
-      <div className={classNames.left} style={{ width: leftLine.width, borderTop: pastBorder }} />
+      {/* <div className={classNames.left} style={{ width: leftLine.width, borderTop: pastBorder }} />
       <div
         className={classNames.marker}
         style={{ left: leftLine.left, backgroundColor: bulletBackgroundColor }}
@@ -104,7 +104,7 @@ export function NowIndicator({ top, columnWidth, columnCount, columnIndex }: Pro
           left: rightLine.left,
           borderTop: futureBorder,
         }}
-      />
+      /> */}
     </div>
   );
 }

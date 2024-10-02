@@ -16,7 +16,7 @@ import {
 import { weekTimeGridLeftSelector } from '@src/selectors/theme';
 import { timezonesSelector } from '@src/selectors/timezone';
 import TZDate from '@src/time/date';
-import { addMinutes, setTimeStrToDate } from '@src/time/datetime';
+import { addMinutes, setTimeStrToDate, toFormat } from '@src/time/datetime';
 import { isNil, isPresent } from '@src/utils/type';
 
 import type { TimeGridRow } from '@t/grid';
@@ -63,6 +63,14 @@ function timeColorSelector(theme: ThemeState) {
   };
 }
 
+function hasZeroMinutes(timeString) {
+  // Split the time string by the colon (:) and get the minutes part
+  const minutes = timeString.split(':')[1];
+
+  // Check if the minutes part is equal to "00"
+  return minutes === '00';
+}
+
 function HourRows({ rowsInfo, isPrimary, borderRight, width, nowIndicatorState }: HourRowsProps) {
   const showNowIndicator = useStore(showNowIndicatorOptionSelector);
   const { primaryTimezoneBackgroundColor, subTimezoneBackgroundColor } =
@@ -71,7 +79,6 @@ function HourRows({ rowsInfo, isPrimary, borderRight, width, nowIndicatorState }
   const zonedNow = isPresent(nowIndicatorState)
     ? addMinutes(nowIndicatorState.now, rowsInfo[0].diffFromPrimaryTimezone ?? 0)
     : null;
-  console.log(zonedNow);
   const backgroundColor = isPrimary ? primaryTimezoneBackgroundColor : subTimezoneBackgroundColor;
 
   return (
@@ -82,9 +89,16 @@ function HourRows({ rowsInfo, isPrimary, borderRight, width, nowIndicatorState }
     >
       {rowsInfo.map(({ date, top, className }) => {
         const isPast = isPresent(zonedNow) && date < zonedNow;
-        const color = isPast ? pastTimeColor : futureTimeColor;
-        console.log(date);
-        console.log(`timegridDisplay${isPrimary ? 'Primary' : ''}Time`);
+        let color = pastTimeColor;
+        // console.log(date);
+        // console.log(`timegridDisplay${isPrimary ? 'Primary' : ''}Time`);
+
+        //get time timestring
+        const timeStringInHHMM = toFormat(date, 'HH:mm');
+
+        if (hasZeroMinutes(timeStringInHHMM)) {
+          color = futureTimeColor;
+        }
 
         return (
           <div
@@ -122,7 +136,6 @@ interface Props {
 }
 
 export const TimeColumn = memo(function TimeColumn({ timeGridRows, nowIndicatorState }: Props) {
-  console.log(nowIndicatorState);
   const showNowIndicator = useStore(showNowIndicatorOptionSelector);
   const timezones = useStore(timezonesSelector);
   const timezonesCollapsed = useStore(timezonesCollapsedOptionSelector);
@@ -130,12 +143,7 @@ export const TimeColumn = memo(function TimeColumn({ timeGridRows, nowIndicatorS
   const tzConverter = useTZConverter();
   const { width, borderRight } = useTheme(weekTimeGridLeftSelector);
 
-  const rowsByHour = useMemo(
-    () => timeGridRows.filter((_, index) => true),
-    [timeGridRows]
-  );
-  console.log(timeGridRows);
-  console.log(rowsByHour);
+  const rowsByHour = useMemo(() => timeGridRows.filter((_, index) => true), [timeGridRows]);
   const hourRowsPropsMapper = useCallback(
     (row: TimeGridRow, index: number, diffFromPrimaryTimezone?: number) => {
       const shouldHideRow = ({ top: rowTop, height: rowHeight }: TimeGridRow) => {
@@ -153,7 +161,7 @@ export const TimeColumn = memo(function TimeColumn({ timeGridRows, nowIndicatorS
       const className = cls(classNames.time, {
         [classNames.first]: isFirst,
         [classNames.last]: isLast,
-        [classNames.hidden]: shouldHideRow(row),
+        [classNames.hidden]: false, //shouldHideRow(row),
       });
       let date = setTimeStrToDate(new TZDate(), isLast ? row.endTime : row.startTime);
       if (isPresent(diffFromPrimaryTimezone)) {
@@ -185,7 +193,6 @@ export const TimeColumn = memo(function TimeColumn({ timeGridRows, nowIndicatorS
       const primaryTimezoneOffset = tzConverter(primaryTimezone.timezoneName).getTimezoneOffset();
       const currentTimezoneOffset = tzConverter(timezoneName).getTimezoneOffset();
       const diffFromPrimaryTimezone = currentTimezoneOffset - primaryTimezoneOffset;
-      console.log(diffFromPrimaryTimezone);
 
       return rowsByHour.map((row, index) =>
         hourRowsPropsMapper(row, index, diffFromPrimaryTimezone)
@@ -215,7 +222,7 @@ export const TimeColumn = memo(function TimeColumn({ timeGridRows, nowIndicatorS
         isPrimary={true}
         borderRight={borderRight}
         width={timezonesCollapsed ? 200 : hourRowsWidth}
-        nowIndicatorState={nowIndicatorState}
+        nowIndicatorState={null}
       />
     </div>
   );
