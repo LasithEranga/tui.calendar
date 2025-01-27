@@ -171,6 +171,7 @@ export function TimeGrid({ timeGridData, events }: Props) {
 
   return (
     <div className={classNames.timegrid}>
+      {console.log(classNames.scrollArea)}
       <div className={classNames.scrollArea}>
         <TimeColumn timeGridRows={rows} nowIndicatorState={nowIndicatorState} />
         <div

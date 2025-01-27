@@ -122,3 +122,102 @@ To disable GA, refer to the docs below.
 ## 📜 License
 
 This software is licensed under the [MIT](/LICENSE) © [NHN Cloud](https://github.com/nhn).
+
+
+## make follwing changes to show the calendar without height issues
+
+.rpv-default-layout__sidebar.rpv-default-layout__sidebar--ltr {
+  display: none;
+}
+.toastui-calendar-day-name__date,
+.toastui-calendar-allday,
+.toastui-calendar-panel-resizer {
+  display: none;
+}
+.toastui-calendar-timegrid.toastui-calendar-timegrid-scroll-area {
+  height: 600% !important;
+}
+.toastui-calendar-timegrid {
+  height: 3000px !important;
+}
+.toastui-calendar-panel.toastui-calendar-time {
+  height: 500px;
+  min-height: unset !important;
+}
+.toastui-calendar-timegrid.toastui-calendar-timegrid-scroll-area {
+  height: 100% !important;
+}
+
+.toastui-calendar-day-names {
+  border-bottom: none !important;
+}
+
+.rpv-default-layout__container {
+  border: none;
+}
+
+.rpv-default-layout__toolbar {
+  position: sticky;
+  top: 0px;
+}
+
+.rpv-default-layout__body {
+  padding-top: 0;
+}
+
+.rpv-core__inner-pages.rpv-core__inner-pages--vertical {
+  padding-top: 10px;
+}
+
+.rpv-toolbar__right > :nth-child(1),
+.rpv-toolbar__right > :nth-child(2),
+.rpv-toolbar__right > :nth-child(6) {
+  visibility: hidden;
+}
+
+.rpv-toolbar__right > :nth-child(3),
+.rpv-toolbar__right > :nth-child(5) {
+  display: none;
+}
+
+.blocked-area {
+  position: relative;
+  width: 200px; /* Adjust as needed */
+  height: 200px; /* Adjust as needed */
+  background: linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.3) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.3) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 20px 20px; /* Adjust size to your needs */
+}
+
+
+## handle the height dynamically
+
+  useEffect(() => {
+    let timeout = null;
+    const updateHeight = () => {
+      const elements = document.querySelectorAll('.toastui-calendar-panel.toastui-calendar-time');
+      console.log(elements);
+      timeout = setTimeout(() => {
+        elements.forEach((element) => {
+          element.style.height = 'calc(90vh - 100px)';
+        });
+      }, 200);
+    };
+
+    window.addEventListener('resize', updateHeight);
+    updateHeight();
+
+    return () => {
+      window.removeEventListener('resize', updateHeight);
+      timeout && clearTimeout(timeout);
+    };
+  }, [currentView]);
+

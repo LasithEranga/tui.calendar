@@ -51,13 +51,14 @@ export default class ToastUIReactCalendar extends React.Component<Props> {
   calendarInstance: ToastUICalendar | null = null;
 
   static defaultProps = {
-    height: '800px',
+    height: 'unset',
     view: 'week',
   };
 
   componentDidMount() {
     const { height, events = [], view, ...options } = this.props;
     const container = this.containerElementRef.current;
+    container?.classList.add('tui-react-calendar');
 
     if (container) {
       this.calendarInstance = new ToastUICalendar(container, { ...options, defaultView: view });
