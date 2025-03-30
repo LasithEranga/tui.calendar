@@ -21,6 +21,7 @@ export function MovingEventShadow({
   if (isNil(movingEvent)) {
     return null;
   }
+  console.log(movingEvent);
 
   return <TimeEvent uiModel={movingEvent} nextStartTime={nextStartTime} />;
 }

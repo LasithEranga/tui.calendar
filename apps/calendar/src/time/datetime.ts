@@ -116,8 +116,8 @@ export const MS_PER_MINUTES = 60000;
 /**
  * The number of milliseconds 20 minutes for event min duration
  */
-export const MS_EVENT_MIN_DURATION = 20 * MS_PER_MINUTES;
-export const MS_PER_THIRTY_MINUTES = 30 * 60 * 1000;
+export const MS_EVENT_MIN_DURATION = 10 * MS_PER_MINUTES;
+export const MS_PER_THIRTY_MINUTES = 15 * MS_PER_MINUTES;
 export const SIXTY_SECONDS = 60;
 
 /**

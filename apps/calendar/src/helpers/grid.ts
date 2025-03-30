@@ -435,13 +435,19 @@ export function createTimeGridData(
     const hour = options.hourStart + Math.floor(step / 4); // Calculate the correct hour for every 4 steps (15-minute intervals)
 
     // Calculate minutes based on the quarter
+    // eslint-disable-next-line no-nested-ternary
     const minutes = quarter === 0 ? '00' : quarter === 1 ? '15' : quarter === 2 ? '30' : '45';
 
     // Calculate startTime and endTime
     const startTime = `${hour}:${minutes}`.padStart(5, '0') as FormattedTimeString;
-    const endTime = quarter === 3
-      ? `${hour + 1}:00`.padStart(5, '0')
-      : `${hour}:${(quarter === 0 ? '15' : quarter === 1 ? '30' : '45')}`.padStart(5, '0') as FormattedTimeString;
+    const endTime =
+      quarter === 3
+        ? `${hour + 1}:00`.padStart(5, '0')
+        : // eslint-disable-next-line no-nested-ternary
+          (`${hour}:${quarter === 0 ? '15' : quarter === 1 ? '30' : '45'}`.padStart(
+            5,
+            '0'
+          ) as FormattedTimeString);
     return {
       top: baseHeight * index,
       height: baseHeight,
@@ -449,7 +455,6 @@ export function createTimeGridData(
       endTime,
     };
   });
-
 
   return {
     columns,

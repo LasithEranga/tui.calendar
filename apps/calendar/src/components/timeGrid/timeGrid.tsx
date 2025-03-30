@@ -194,14 +194,14 @@ export function TimeGrid({ timeGridData, events }: Props) {
               isLastColumn={index === lastColumnIndex}
             />
           ))}
-          {showNowIndicator && isPresent(currentDateData) && isPresent(nowIndicatorState) ? (
+          {/* {showNowIndicator && isPresent(currentDateData) && isPresent(nowIndicatorState) ? (
             <NowIndicator
               top={nowIndicatorState.top}
               columnWidth={columns[0].width}
               columnCount={columns.length}
               columnIndex={currentDateData.currentDateIndex}
             />
-          ) : null}
+          ) : null} */}
         </div>
       </div>
     </div>

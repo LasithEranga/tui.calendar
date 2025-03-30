@@ -13,13 +13,13 @@ import { isNil, isPresent } from '@src/utils/type';
 import type { GridPosition, GridPositionFinder, TimeGridData } from '@t/grid';
 import type { CalendarState } from '@t/store';
 
-const THIRTY_MINUTES = 30;
+const THIRTY_MINUTES = 15;
 
 function getCurrentIndexByTime(time: TZDate, hourStart: number) {
   const hour = time.getHours() - hourStart;
   const minutes = time.getMinutes();
 
-  return hour * 2 + Math.floor(minutes / THIRTY_MINUTES);
+  return hour * 4 + Math.floor(minutes / THIRTY_MINUTES);
 }
 
 function getMovingEventPosition({
