@@ -7,19 +7,24 @@ import { useCurrentPointerPositionInGrid } from '@src/hooks/event/useCurrentPoin
 import { useDraggingEvent } from '@src/hooks/event/useDraggingEvent';
 import type EventUIModel from '@src/model/eventUIModel';
 import type TZDate from '@src/time/date';
-import { addMilliseconds, addMinutes, MS_PER_DAY, MS_PER_THIRTY_MINUTES } from '@src/time/datetime';
+import {
+  addMilliseconds,
+  addMinutes,
+  EVENT_MIN_DURATION,
+  MS_PER_DAY,
+  MS_PER_EVENT_MIN_DURATION,
+  NUMBER_OF_STEPS_IN_ONE_HOUR
+} from '@src/time/datetime';
 import { isNil, isPresent } from '@src/utils/type';
 
 import type { GridPosition, GridPositionFinder, TimeGridData } from '@t/grid';
 import type { CalendarState } from '@t/store';
 
-const THIRTY_MINUTES = 15;
-
 function getCurrentIndexByTime(time: TZDate, hourStart: number) {
   const hour = time.getHours() - hourStart;
   const minutes = time.getMinutes();
 
-  return hour * 4 + Math.floor(minutes / THIRTY_MINUTES);
+  return hour * NUMBER_OF_STEPS_IN_ONE_HOUR + Math.floor(minutes / EVENT_MIN_DURATION);
 }
 
 function getMovingEventPosition({
@@ -37,7 +42,7 @@ function getMovingEventPosition({
 }) {
   const rowHeight = timeGridDataRows[0].height;
   const maxHeight = rowHeight * timeGridDataRows.length;
-  const millisecondsDiff = rowDiff * MS_PER_THIRTY_MINUTES + columnDiff * MS_PER_DAY;
+  const millisecondsDiff = rowDiff * MS_PER_EVENT_MIN_DURATION + columnDiff * MS_PER_DAY;
   const hourStart = Number(timeGridDataRows[0].startTime.split(':')[0]);
 
   const { goingDuration = 0, comingDuration = 0 } = draggingEvent.model;
@@ -126,7 +131,7 @@ export function useTimeGridEventMove({
 
     return addMilliseconds(
       startDateTime,
-      gridDiff.rowDiff * MS_PER_THIRTY_MINUTES + gridDiff.columnDiff * MS_PER_DAY
+      gridDiff.rowDiff * MS_PER_EVENT_MIN_DURATION + gridDiff.columnDiff * MS_PER_DAY
     );
   }, [gridDiff, startDateTime]);
 

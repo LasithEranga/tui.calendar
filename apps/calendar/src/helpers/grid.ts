@@ -10,6 +10,7 @@ import {
   Day,
   getDateDifference,
   isWeekend,
+  NUMBER_OF_STEPS_IN_ONE_HOUR,
   subtractDate,
   toEndOfDay,
   toEndOfMonth,
@@ -427,12 +428,12 @@ export function createTimeGridData(
   const columns = getColumnsData(datesOfWeek, options.narrowWeekend ?? false);
 
   // Calculate the number of steps based on 15-minute intervals (4 steps per hour)
-  const steps = (options.hourEnd - options.hourStart) * 4;
+  const steps = (options.hourEnd - options.hourStart) * NUMBER_OF_STEPS_IN_ONE_HOUR;
   const baseHeight = 100 / steps; // Increased by 10% for larger rows
 
   const rows = range(steps).map((step, index) => {
-    const quarter = step % 4; // Determines the current 15-minute interval
-    const hour = options.hourStart + Math.floor(step / 4); // Calculate the correct hour for every 4 steps (15-minute intervals)
+    const quarter = step % NUMBER_OF_STEPS_IN_ONE_HOUR; // Determines the current 15-minute interval
+    const hour = options.hourStart + Math.floor(step / NUMBER_OF_STEPS_IN_ONE_HOUR); // Calculate the correct hour for every 4 steps (15-minute intervals)
 
     // Calculate minutes based on the quarter
     // eslint-disable-next-line no-nested-ternary
