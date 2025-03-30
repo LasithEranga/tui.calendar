@@ -140,7 +140,7 @@ export function Week() {
 
   return (
     <Layout className={cls('week-view')} autoAdjustPanels={true}>
-      {/* <Panel
+      <Panel
         name="week-view-day-names"
         initialHeight={WEEK_DAY_NAME_HEIGHT + WEEK_DAY_NAME_BORDER * 2}
       >
@@ -151,8 +151,8 @@ export function Week() {
           options={weekOptions}
           rowStyleInfo={rowStyleInfo}
         />
-      </Panel> */}
-      {/* {dayGridRows} */}
+      </Panel>
+      {dayGridRows}
       {hasTimePanel ? (
         <Panel name="time" autoSize={1} ref={setTimePanelRef}>
           <TimeGrid events={eventByPanel.time} timeGridData={timeGridData} />
