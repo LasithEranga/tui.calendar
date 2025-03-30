@@ -8,6 +8,7 @@ import TZDate from '@src/time/date';
 import {
   addDate,
   Day,
+  EVENT_MIN_DURATION,
   getDateDifference,
   isWeekend,
   NUMBER_OF_STEPS_IN_ONE_HOUR,
@@ -423,32 +424,43 @@ export function createTimeGridData(
     hourStart: number;
     hourEnd: number;
     narrowWeekend?: boolean;
+    stepMinutes?: number; // New parameter for minute resolution
   }
 ): TimeGridData {
   const columns = getColumnsData(datesOfWeek, options.narrowWeekend ?? false);
 
-  // Calculate the number of steps based on 15-minute intervals (4 steps per hour)
-  const steps = (options.hourEnd - options.hourStart) * NUMBER_OF_STEPS_IN_ONE_HOUR;
-  const baseHeight = 100 / steps; // Increased by 10% for larger rows
+  // Default to 15 minutes if not specified
+  const stepMinutes = options.stepMinutes ?? EVENT_MIN_DURATION;
+  const MINUTES_PER_HOUR = 60;
 
-  const rows = range(steps).map((step, index) => {
-    const quarter = step % NUMBER_OF_STEPS_IN_ONE_HOUR; // Determines the current 15-minute interval
-    const hour = options.hourStart + Math.floor(step / NUMBER_OF_STEPS_IN_ONE_HOUR); // Calculate the correct hour for every 4 steps (15-minute intervals)
+  // Validate stepMinutes is between 1 and 60 and divides evenly into 60
+  if (stepMinutes < 1 || stepMinutes > 60 || 60 % stepMinutes !== 0) {
+    throw new Error('stepMinutes must be between 1-60 and must divide evenly into 60');
+  }
 
-    // Calculate minutes based on the quarter
-    // eslint-disable-next-line no-nested-ternary
-    const minutes = quarter === 0 ? '00' : quarter === 1 ? '15' : quarter === 2 ? '30' : '45';
+  const stepsPerHour = MINUTES_PER_HOUR / stepMinutes;
+  const totalSteps = (options.hourEnd - options.hourStart) * stepsPerHour;
+  const baseHeight = 100 / totalSteps;
 
-    // Calculate startTime and endTime
-    const startTime = `${hour}:${minutes}`.padStart(5, '0') as FormattedTimeString;
-    const endTime =
-      quarter === 3
-        ? `${hour + 1}:00`.padStart(5, '0')
-        : // eslint-disable-next-line no-nested-ternary
-          (`${hour}:${quarter === 0 ? '15' : quarter === 1 ? '30' : '45'}`.padStart(
-            5,
-            '0'
-          ) as FormattedTimeString);
+  const rows = range(totalSteps).map((step, index) => {
+    const totalMinutes = step * stepMinutes;
+    const hour = options.hourStart + Math.floor(totalMinutes / MINUTES_PER_HOUR);
+    const minutes = totalMinutes % MINUTES_PER_HOUR;
+
+    const startTime = `${hour}:${minutes.toString().padStart(2, '0')}`.padStart(
+      5,
+      '0'
+    ) as FormattedTimeString;
+
+    // Calculate end time
+    const nextTotalMinutes = totalMinutes + stepMinutes;
+    const endHour = options.hourStart + Math.floor(nextTotalMinutes / MINUTES_PER_HOUR);
+    const endMinutes = nextTotalMinutes % MINUTES_PER_HOUR;
+    const endTime = `${endHour}:${endMinutes.toString().padStart(2, '0')}`.padStart(
+      5,
+      '0'
+    ) as FormattedTimeString;
+
     return {
       top: baseHeight * index,
       height: baseHeight,
